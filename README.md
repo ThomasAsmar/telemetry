@@ -1,5 +1,5 @@
 telemetry
 =========
 
-public rep for iPython telemetry tools
-Power is now working.
+Telemetry data processing, in particular from ImageProc 2.5c.
+ 
