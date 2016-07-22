@@ -265,7 +265,7 @@ print 'yaw max =%6.3f' %(AngleZ[i])
 ########################################
 height = 8
 width = 9
-fig = figure(figsize = (width, height))
+fig = plot.figure(figsize = (width, height))
 min= 150
 max = 2500
 max=np.min([max, len(rightLegPos)])  # make sure max < length
@@ -275,9 +275,9 @@ plot.subplot(3,1,2)
 #plot.plot(time[min:max],GyroX[min:max],'k--')
 plot.plot(time[min:max],GyroY[min:max], 'g.')
 plot.plot(time[min:max],GyroZ[min:max], 'b')
-xlabel('time [ms]')
-ylabel('Gyro rad/s')
-legend([ 'Y', 'Z'])
+plot.xlabel('time [ms]')
+plot.ylabel('Gyro rad/s')
+plot.legend([ 'Y', 'Z'])
 ax = fig.add_subplot(3,1,2)
 ax.axhline(linewidth=1, color='m')
 ax.set_xticks(np.round(xticks,1))
@@ -289,9 +289,9 @@ plot.plot(time[min:max],rightLegPos[min:max]% (2.0*np.pi),'k')
 plot.plot(time[min:max],leftLegPos[min:max]% (2.0*np.pi),'b')
 plot.plot(time[min:max],commandedRightLegPos[min:max]% (2.0*np.pi), 'k--')
 plot.plot(time[min:max],commandedLeftLegPos[min:max]% (2.0*np.pi), 'b-.')
-xlabel('time [ms]')
-ylabel('Leg Position')
-legend(['RPos','LPos','Rref','Lref'])
+plot.xlabel('time [ms]')
+plot.ylabel('Leg Position')
+plot.legend(['RPos','LPos','Rref','Lref'])
 #plot.plot(time[0:1000],10.0*RBEMF[0:1000],'k')
 #plot.plot(time[0:1000],LBEMF[0:1000],'b')
 #xlabel('time [ms]')
@@ -307,9 +307,9 @@ plot.subplot(3,1,3)
 plot.plot(time[min:max],TorqueR[min:max],'k')
 plot.plot(time[min:max],TorqueL[min:max],'b--')
 #plot.plot(time[min:max],TorqueR[min:max] + TorqueL[min:max], 'g.')
-xlabel('time [ms]')
-ylabel('Torque (mN-m)')
-legend(['Right', 'Left'])
+plot.xlabel('time [ms]')
+plot.ylabel('Torque (mN-m)')
+plot.legend(['Right', 'Left'])
 ax = fig.add_subplot(3,1,3)
 ax.axhline(linewidth=1, color='m')
 ax.set_xticks(np.round(xticks,1))
@@ -366,7 +366,7 @@ ax.xaxis.grid() #vertical lines
 # plot position and turning angle
 height = 8
 width = 9
-fig = figure(figsize = (width,height))
+fig = plot.figure(figsize = (width,height))
 
 print 'np.size', np.size(rightLegPos)
 #min=100 
@@ -416,8 +416,8 @@ plot.plot(time[min:max],2.0*np.pi-leftLegPos[min:max]% (2.0*np.pi),'b')
 #plot.plot(time[min:max],phase[min:max],'r')
 #plot.plot(time[min:max],commandedRightLegPos[min:max]% (2.0*np.pi), 'k--')
 #plot.plot(time[min:max],commandedLeftLegPos[min:max]% (2.0*np.pi), 'b-.')
-ylabel('Leg Position')
-legend(['RPos','LPos'],bbox_to_anchor=(0.85, 1), loc=2, borderaxespad=0.)
+plot.ylabel('Leg Position')
+plot.legend(['RPos','LPos'],bbox_to_anchor=(0.85, 1), loc=2, borderaxespad=0.)
 yticks=np.linspace(0,2,3)*np.pi
 ax = fig.add_subplot(3,1,1)
 ax.set_yticks(np.round(yticks,2))
@@ -459,12 +459,12 @@ plot.title(filename+' Phase offset ='+format(180.0*phase_offset/np.pi,'.2f'))
 
 
 plot.subplot(3,1,2)
-xlabel('time [ms]')
+plot.xlabel('time [ms]')
 # Total Angle in radians
 #plot.plot(time,AngleY,'k')
 plot.plot(time[min:max],AngleZ[min:max], 'g')
-ylabel('Angle (rad)')
-legend(['Gz'],bbox_to_anchor=(0.85, 1), loc=2, borderaxespad=0.)
+plot.ylabel('Angle (rad)')
+plot.legend(['Gz'],bbox_to_anchor=(0.85, 1), loc=2, borderaxespad=0.)
 ax = fig.add_subplot(3,1,2)
 ax.axhline(linewidth=1, color='m')
 ax.set_xticks(np.round(xticks,1))
