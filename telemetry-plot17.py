@@ -43,7 +43,8 @@ width = 9
 #filename = 'c:/users/ronf/research/development/turner-ip2.5/Python/Data/imudata.txt'
 #filename = 'c:/users/ronf/research/development/telemetryData/imudata16Feb15.txt'
 #filename = 'c:/users/ronf/research/development/telemetryData/left1000right1000.txt'
-filename = '../telemetryData/tripod300l290r-air.txt'
+#filename = '../telemetryData/tripod300l290r-air.txt'
+filename = '../../Simulation/data-test.txt'
 #filename = '../telemetryData/tripod300l290r-gnd-1sec.txt'
 #filename = '../telemetryData/Jul15-AccelSteer/200ms35351515l1.txt'
 #filename = '../telemetryData/Jul15-RollSteer/200ms130degl1.txt'
@@ -266,50 +267,63 @@ print 'yaw max =%6.3f' %(AngleZ[i])
 height = 8
 width = 9
 fig = plot.figure(figsize = (width, height))
-min= 150
+min = 0 # plot all data, including startup
 max = 2500
 max=np.min([max, len(rightLegPos)])  # make sure max < length
 
 # gyro data
-plot.subplot(3,1,2)
+plot.subplot(4,1,2)
 #plot.plot(time[min:max],GyroX[min:max],'k--')
 plot.plot(time[min:max],GyroY[min:max], 'g.')
 plot.plot(time[min:max],GyroZ[min:max], 'b')
 plot.xlabel('time [ms]')
 plot.ylabel('Gyro rad/s')
 plot.legend([ 'Y', 'Z'])
-ax = fig.add_subplot(3,1,2)
+ax = fig.add_subplot(4,1,2)
 ax.axhline(linewidth=1, color='m')
-ax.set_xticks(np.round(xticks,1))
+# ax.set_xticks(np.round(xticks,1))
 ax.xaxis.grid() #vertical lines
 
 # actual and commanded leg position
-plot.subplot(3,1,1)
-plot.plot(time[min:max],rightLegPos[min:max]% (2.0*np.pi),'k')
+plot.subplot(4,1,1)
+plot.plot(time[min:max],rightLegPos[min:max]% (2.0*np.pi),'g')
 plot.plot(time[min:max],leftLegPos[min:max]% (2.0*np.pi),'b')
 plot.plot(time[min:max],commandedRightLegPos[min:max]% (2.0*np.pi), 'k--')
 plot.plot(time[min:max],commandedLeftLegPos[min:max]% (2.0*np.pi), 'b-.')
 plot.xlabel('time [ms]')
 plot.ylabel('Leg Position')
 plot.legend(['RPos','LPos','Rref','Lref'])
-ax = fig.add_subplot(3,1,1)
+ax = fig.add_subplot(4,1,1)
 ax.axhline(linewidth=1, color='m')
-ax.set_xticks(np.round(xticks,1))
+# ax.set_xticks(np.round(xticks,1))
 ax.xaxis.grid() #vertical lines
 
 #Torque#
-plot.subplot(3,1,3)
-plot.plot(time[min:max],TorqueR[min:max],'k')
+plot.subplot(4,1,3)
+plot.plot(time[min:max],TorqueR[min:max],'g')
 plot.plot(time[min:max],TorqueL[min:max],'b--')
 #plot.plot(time[min:max],TorqueR[min:max] + TorqueL[min:max], 'g.')
 plot.xlabel('time [ms]')
 plot.ylabel('Torque (mN-m)')
 plot.legend(['Right', 'Left'])
-ax = fig.add_subplot(3,1,3)
+ax = fig.add_subplot(4,1,3)
 ax.axhline(linewidth=1, color='m')
-ax.set_xticks(np.round(xticks,1))
+#ax.set_xticks(np.round(xticks,1))
 ax.xaxis.grid() #vertical lines
 
+#accelerometer#
+plot.subplot(4,1,4)
+plot.plot(time[min:max],AX[min:max],'g.')
+plot.plot(time[min:max],AY[min:max],'b--')
+plot.plot(time[min:max],AZ[min:max],'r-')
+#plot.plot(time[min:max],TorqueR[min:max] + TorqueL[min:max], 'g.')
+plot.xlabel('time [ms]')
+plot.ylabel('Accel ($m s^{-2}$)')
+plot.legend(['x','y','z'])
+ax = fig.add_subplot(4,1,4)
+ax.axhline(linewidth=1, color='m')
+#ax.set_xticks(np.round(xticks,1))
+ax.xaxis.grid() #vertical lines
 
 
 
@@ -437,12 +451,13 @@ ax.xaxis.grid() #vertical lines
 height = 8
 width = 14
 fig = plot.figure(figsize = (width,height))
+min = 0 # plot all data, including startup
 
-
+xticks=np.linspace(0,time[max-1]-(time[max-1]%1000),10)
 # leg position error
 plot.subplot(3,2,1)
 plot.xlabel('time [ms]')
-plot.plot(time,commandedRightLegPos- rightLegPos,'k')
+plot.plot(time,commandedRightLegPos- rightLegPos,'g')
 plot.plot(time,commandedLeftLegPos - leftLegPos,'b')
 plot.ylabel('Leg Position error')
 plot.legend(['RErr', 'LErr'])
@@ -451,30 +466,30 @@ ax.axhline(linewidth=1, color='m')
 
 # actual and commanded leg position
 plot.subplot(3,2,2)
-plot.plot(time[min:max],rightLegPos[min:max]% (2.0*np.pi),'k')
+plot.plot(time[min:max],rightLegPos[min:max]% (2.0*np.pi),'g')
 plot.plot(time[min:max],leftLegPos[min:max]% (2.0*np.pi),'b')
-plot.plot(time[min:max],commandedRightLegPos[min:max]% (2.0*np.pi), 'k--')
+plot.plot(time[min:max],commandedRightLegPos[min:max]% (2.0*np.pi), 'g--')
 plot.plot(time[min:max],commandedLeftLegPos[min:max]% (2.0*np.pi), 'b-.')
 plot.xlabel('time [ms]')
 plot.ylabel('Leg Position')
 plot.legend(['RPos','LPos','Rref','Lref'])
 ax = fig.add_subplot(3,2,2)
 ax.axhline(linewidth=1, color='m')
-ax.set_xticks(np.round(xticks,1))
-ax.xaxis.grid() #vertical lines
+# ax.set_xticks(np.round(xticks,1))
+#ax.xaxis.grid() #vertical lines
 
 #Torque#
 plot.subplot(3,2,3)
-plot.plot(time[min:max],TorqueR[min:max],'k')
-plot.plot(time[min:max],TorqueL[min:max],'b--')
+plot.plot(time[min:max],TorqueR[min:max],'g')
+plot.plot(time[min:max],TorqueL[min:max],'b-')
 #plot.plot(time[min:max],TorqueR[min:max] + TorqueL[min:max], 'g.')
 plot.xlabel('time [ms]')
 plot.ylabel('Torque (mN-m)')
 plot.legend(['Right', 'Left'])
 ax = fig.add_subplot(3,2,3)
 ax.axhline(linewidth=1, color='m')
-ax.set_xticks(np.round(xticks,1))
-ax.xaxis.grid() #vertical lines
+#ax.set_xticks(np.round(xticks,1))
+#ax.xaxis.grid() #vertical lines
 
 # plot.tight_layout() gives a math error
 #plot.tight_layout()
@@ -482,8 +497,8 @@ ax.xaxis.grid() #vertical lines
 
 # Motor PWM 
 plot.subplot(3,2,5)
-plot.plot(time,DCR,'k')
-plot.plot(time,DCL,'b--')
+plot.plot(time,DCR,'g')
+plot.plot(time,DCL,'b-')
 plot.xlabel('time [ms]')
 plot.ylabel('Duty Cycle (%)')
 plot.legend(['Right', 'Left'])
